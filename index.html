@@ -49,15 +49,26 @@
                 <div id="opcoes-tamanho" class="opcoes-botoes"></div>
               </div>
 
-              <div id="personalizacao-container" style="display: none">
-                <label>Personalização:</label>
-                <div class="personalizacao-campos">
-                  <div class="form-group">
-                    <label for="texto-personalizacao-nome">Nome:</label>
+              <div
+                id="personalizacao-container"
+                class="personalizacao-container"
+                style="display: none"
+              >
+                <div class="custom-control">
+                  <input
+                    type="checkbox"
+                    id="personalizacao-check"
+                    onchange="togglePersonalizacao()"
+                  />
+                  <label for="personalizacao-check">Deseja adicionar personalização?</label>
+                </div>
+                <div class="personalizacao-campos" id="personalizacao-campos" style="display: none">
+                  <div class="input-group">
+                    <label for="texto-personalizacao-nome">Nome</label>
                     <input type="text" id="texto-personalizacao-nome" placeholder="Digite o nome" />
                   </div>
-                  <div class="form-group">
-                    <label for="texto-personalizacao-numero">Número:</label>
+                  <div class="input-group">
+                    <label for="texto-personalizacao-numero">Número</label>
                     <input
                       type="text"
                       id="texto-personalizacao-numero"

@@ -217,6 +217,17 @@ window.enviarPedido = function () {
   window.open(link, "_blank");
 };
 
+// Função para mostrar ou ocultar os campos de personalização com base no checkbox
+window.togglePersonalizacao = function () {
+  const personalCheck = document.getElementById("personalizacao-check");
+  const personalCampos = document.getElementById("personalizacao-campos");
+  if (personalCheck.checked) {
+    personalCampos.style.display = "block";
+  } else {
+    personalCampos.style.display = "none";
+  }
+};
+
 // Function to show product details modal
 window.mostrarDetalhesProduto = function (produto) {
   currentProduct = produto;
@@ -233,7 +244,6 @@ window.mostrarDetalhesProduto = function (produto) {
   const tamanhos = produto.size.split(",").map((t) => t.trim());
   const tamanhosContainer = document.getElementById("opcoes-tamanho");
   tamanhosContainer.innerHTML = "";
-
   tamanhos.forEach((tamanho) => {
     const btn = document.createElement("button");
     btn.textContent = tamanho;
@@ -246,20 +256,24 @@ window.mostrarDetalhesProduto = function (produto) {
     tamanhosContainer.appendChild(btn);
   });
 
-  // Show/hide personalization field
+  // Verifica se o produto é personalizável (definido pelo admin no banco de dados)
   const personalizacaoContainer = document.getElementById("personalizacao-container");
-  if (produto.personalizavel) {
+  if (produto.personalizavel === true || produto.personalizavel === "true") {
     personalizacaoContainer.style.display = "block";
-    const nomeInput = document.getElementById("texto-personalizacao-nome");
-    const numeroInput = document.getElementById("texto-personalizacao-numero");
-
-    if (nomeInput) nomeInput.value = "";
-    if (numeroInput) numeroInput.value = "";
+    // Reinicia o estado: checkbox desmarcado e campos ocultos
+    const personalCheck = document.getElementById("personalizacao-check");
+    if (personalCheck) {
+      personalCheck.checked = false;
+    }
+    const personalCampos = document.getElementById("personalizacao-campos");
+    if (personalCampos) {
+      personalCampos.style.display = "none";
+    }
   } else {
     personalizacaoContainer.style.display = "none";
   }
 
-  // Show modal
+  // Exibe o modal
   document.getElementById("modal-produto").style.display = "flex";
 };
 
@@ -288,14 +302,17 @@ window.adicionarAoCarrinhoDetalhes = function () {
 
   let personalizacao = "";
   if (currentProduct.personalizavel) {
-    const nomeInput = document.getElementById("texto-personalizacao-nome");
-    const numeroInput = document.getElementById("texto-personalizacao-numero");
+    const personalCheck = document.getElementById("personalizacao-check");
+    if (personalCheck && personalCheck.checked) {
+      const nomeInput = document.getElementById("texto-personalizacao-nome");
+      const numeroInput = document.getElementById("texto-personalizacao-numero");
 
-    const nome = nomeInput ? nomeInput.value : "";
-    const numero = numeroInput ? numeroInput.value : "";
+      const nome = nomeInput ? nomeInput.value : "";
+      const numero = numeroInput ? numeroInput.value : "";
 
-    if (nome || numero) {
-      personalizacao = `Nome: ${nome || "Sem nome"}, Número: ${numero || "Sem número"}`;
+      if (nome || numero) {
+        personalizacao = `Nome: ${nome || "Sem nome"}, Número: ${numero || "Sem número"}`;
+      }
     }
   }
 

@@ -207,8 +207,6 @@ header {
   display: flex !important;
 }
 
-
-
 /* Add these improved mobile styles */
 @media (max-width: 768px) {
   .produto-detalhes {
@@ -863,4 +861,48 @@ header {
   .hero-section h1 {
     font-size: 2rem;
   }
+}
+
+/* Estilos para a área de personalização */
+.personalizacao-container {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.custom-control {
+  display: flex;
+  align-items: center;
+}
+
+.custom-control input[type="checkbox"] {
+  margin-right: 0.5rem;
+  transform: scale(1.2);
+}
+
+.personalizacao-campos {
+  margin-top: 1rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+.input-group input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
 }

@@ -40,6 +40,8 @@ window.adicionarProduto = async function () {
   const tamanho = document.getElementById("tamanho").value.trim();
   const preco = document.getElementById("preco").value;
   const imagemInput = document.getElementById("imagem");
+  // Nova linha: leitura do checkbox de personalização
+  const personalizavel = document.getElementById("personalizavel").checked;
 
   if (!nome || !quantidade || !tamanho || !preco) {
     showNotification("Por favor, preencha todos os campos obrigatórios", "error");
@@ -65,13 +67,15 @@ window.adicionarProduto = async function () {
       base64Image = await convertToBase64(imagemFile);
     }
 
-    // If we're editing, update the product
+    // Se estivermos editando, atualize o produto
     if (editingProductId) {
       const updateData = {
         name: nome,
         stock_quantity: quantidade,
-        size: tamanho, // Store as comma-separated string
+        size: tamanho, // Armazenado como string separada por vírgula
         price: preco,
+        // Nova linha: atualiza o campo personalizavel
+        personalizavel: personalizavel,
       };
 
       // Only update image if a new one is provided
@@ -96,7 +100,7 @@ window.adicionarProduto = async function () {
       document.getElementById("submitBtn").textContent = "Adicionar Produto";
       document.getElementById("cancelBtn").style.display = "none";
     }
-    // Otherwise create a new product
+    // Novo produto
     else {
       if (!imagemInput.files.length) {
         showNotification("Por favor, selecione uma imagem para o produto", "error");
@@ -110,6 +114,8 @@ window.adicionarProduto = async function () {
           size: tamanho,
           price: preco,
           image_url: base64Image,
+          // Nova linha: insere o campo personalizavel
+          personalizavel: personalizavel,
         },
       ]);
 
@@ -127,6 +133,7 @@ window.adicionarProduto = async function () {
     document.getElementById("tamanho").value = "";
     document.getElementById("preco").value = "";
     document.getElementById("imagem").value = "";
+    document.getElementById("personalizavel").checked = false; // opcional
 
     // Clear image preview if it exists
     const previewImg = document.querySelector(".file-preview img");
