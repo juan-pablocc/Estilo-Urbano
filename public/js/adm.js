@@ -34,25 +34,56 @@ const showNotification = (message, type = "success") => {
   }, 3000);
 };
 
+// Função para processar a string de tamanhos
+function processarTamanhos(tamanhoStr) {
+  // Remove espaços extras e converte para minúsculas
+  const str = tamanhoStr.toLowerCase().trim();
+
+  // Verifica se é um padrão de sequência numérica (ex: "33 ao 44")
+  const padraoContinuo = /(\d+)\s*(?:ao|até)\s*(\d+)/;
+  const matchContinuo = str.match(padraoContinuo);
+
+  if (matchContinuo) {
+    const inicio = parseInt(matchContinuo[1]);
+    const fim = parseInt(matchContinuo[2]);
+
+    // Verifica se é uma sequência válida
+    if (inicio < fim && fim - inicio <= 100) {
+      // Limite de 100 números para evitar sequências muito grandes
+      const tamanhos = [];
+      for (let i = inicio; i <= fim; i++) {
+        tamanhos.push(i.toString());
+      }
+      return tamanhos.join(",");
+    }
+  }
+
+  // Se não for um padrão contínuo, retorna a string original formatada
+  return tamanhoStr
+    .split(",")
+    .map((t) => t.trim())
+    .filter((t) => t)
+    .join(",");
+}
+
 window.adicionarProduto = async function () {
   const nome = document.getElementById("nome").value;
   const quantidade = document.getElementById("quantidade").value;
-  const tamanho = document.getElementById("tamanho").value.trim();
+  const tamanhoInput = document.getElementById("tamanho").value.trim();
   const preco = document.getElementById("preco").value;
   const imagemInput = document.getElementById("imagem");
-  // Nova linha: leitura do checkbox de personalização
   const personalizavel = document.getElementById("personalizavel").checked;
 
-  if (!nome || !quantidade || !tamanho || !preco) {
+  if (!nome || !quantidade || !tamanhoInput || !preco) {
     showNotification("Por favor, preencha todos os campos obrigatórios", "error");
     return;
   }
 
-  // Validate tamanho format (comma-separated values)
-  const tamanhos = tamanho
-    .split(",")
-    .map((t) => t.trim())
-    .filter((t) => t);
+  // Processa os tamanhos usando a nova função
+  const tamanho = processarTamanhos(tamanhoInput);
+
+  // Validate tamanho format
+  const tamanhos = tamanho.split(",").filter((t) => t);
   if (tamanhos.length === 0) {
     showNotification("Por favor, informe pelo menos um tamanho válido", "error");
     return;
