@@ -26,8 +26,8 @@ async function carregarProdutos() {
   window.produtos = data;
   produtos = data;
 
-  // Salvar os produtos no localStorage
-  localStorage.setItem("produtos", JSON.stringify(data));
+  // Remover o armazenamento no localStorage que estava causando o erro
+  // localStorage.setItem("produtos", JSON.stringify(data));
 
   let numeroWhatsApp = localStorage.getItem("whatsapp") || "+553398681074";
   let instagram = localStorage.getItem("instagram") || "https://instagram.com/estilourbano.itacity";
